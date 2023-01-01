@@ -1,33 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Post, Group
 
-# Create your views here.
-from django.http import HttpResponse
-from django.template import loader
 
-# Главная страница
 def index(request):
-    # Загружаем шаблон;
-    # шаблоны обычно хранят в отдельной директории.
-    template = 'posts/index.html'
-    text = "Это главная страница проекта Yatube"
+    posts = Post.objects.order_by('-pub_date')[:10]
     context = {
-        'text' : text,
+        'text': 'Это главная страница проекта Yatube',
+        'posts': posts,
     }
-    return render(request, template, context) 
+    return render(request, 'posts/index.html', context)
 
 
-# Страница со списком мороженого
-def groups(request, any_slug):
-    return HttpResponse(f'Мороженое номер {any_slug}') 
-
-def group_list(request):
-    template = 'posts/group_list.html'
-    text = "Здесь будет информация о группах проекта Yatube"
+def group_posts(request, slug):
+    group = get_object_or_404(Group, slug=slug)
+    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     context = {
-        'text' : text,
+        'text': 'Здесь будет информация о группах проекта Yatube',
+        'group': group,
+        'posts': posts,
     }
-    return render(request, template, context) 
-
-def group_posts(request, any_slug):
-    template = f'posts/{any_slug}'
-    return render(request, template) 
+    return render(request, 'posts/group_list.html', context)
