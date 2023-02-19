@@ -55,7 +55,7 @@ class Group(models.Model):
         max_length=50,
         unique=True,
         verbose_name='Тэг',
-        help_text='Здесь нужно задать Тэг (уникальное имя).',
+        help_text='Здесь нужно ввести короткое уникальное имя ЛАТИНИЦЕЙ',
     )
     description = models.TextField(
         verbose_name='Описание группы',

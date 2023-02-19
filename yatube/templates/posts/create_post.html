@@ -2,6 +2,8 @@
 {% block title %}
   {% if is_edit %}
     Редактировать запись
+  {% elif group_create %}
+    Создание группы
   {% else %}
     Новый пост
   {% endif %}
@@ -9,6 +11,8 @@
 {% block card-header %}
   {% if is_edit %}
     Редактировать запись
+  {% elif group_create %}
+    Создание группы
   {% else %}
     Новый пост
 {% endif %}
@@ -39,12 +43,20 @@
                   </small>
                 {% endif %}
               </div>
+              <div> {% if field.label == 'Группа' %}
+                <a href="{% url 'posts:group_create' %}" class="btn btn-link">
+                Не нашли свою группу? Создайте
+              </a>
+              {% endif %}
+              </div>
             </div>
           {% endfor %}
           <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">
             {% if is_edit %}
               Сохранить
+            {% elif group_create %}
+              Создать группу
             {% else %}
               Добавить
             {% endif %}
